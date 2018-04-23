@@ -1,0 +1,19 @@
+{
+  "name": "v-electron-windows",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "VisualSJ",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^1.8.4"
+  },
+  "dependencies": {
+    "electron-platform": "^1.2.0",
+    "uuid": "^3.2.1"
+  }
+}

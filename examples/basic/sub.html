@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Panel Example</title>
+        <style>
+            html, body { width: 100%; height: 100%; font-family: sans-serif; }
+            body { padding: 20px 0; margin: 0 auto; box-sizing: border-box; width: 220px; }
+            h2 { margin: 0; }
+            .content > div { margin: 8px 10px; font-size: 14px; }
+        </style>
+    </head>
+
+    <body>
+        <h2>Sub Window</h2>
+        <div class="content">
+
+            <div>
+                <span>标题：</span>
+                <input id="title">
+            </div>
+            <div>
+                <span>信息：</span>
+                <input id="info">
+            </div>
+        </div>
+
+        <script>
+            const windows = require('../../index');
+
+            let $title = document.getElementById('title');
+            let $info = document.getElementById('info');
+
+            $title.value = windows.userData.title || '';
+            $info.value = windows.userData.info || '';
+
+            $title.addEventListener('change', () => {
+                windows.userData.title = $title.value;
+                windows.updateUserData(windows.userData);
+            });
+            $info.addEventListener('change', () => {
+                windows.userData.info = $info.value;
+                windows.updateUserData(windows.userData);
+            });
+        </script>
+    </body>
+</html>
