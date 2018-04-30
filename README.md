@@ -5,7 +5,7 @@
 # 安装
 
 ```bash
-npm install
+npm install v-electron-windows --save
 ```
 
 # 预览
