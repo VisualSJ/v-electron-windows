@@ -16,7 +16,7 @@ app.on('ready', function () {
         return;
     }
 
-    windows.open(`file://${__dirname}/main.html`, {
+    windows.open(`${__dirname}/main.html`, {
         center: true,
         width: 400,
         height: 320,
@@ -25,7 +25,7 @@ app.on('ready', function () {
 
 ipcMain.on('button:create-window', (event, userData) => {
     // win.webContents.send(`${channel}:say`, msg);
-    windows.open(`file://${__dirname}/sub.html`, {
+    windows.open(`${__dirname}/sub.html`, {
         center: true,
         width: 400,
         height: 320,

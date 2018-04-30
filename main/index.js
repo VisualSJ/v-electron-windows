@@ -1,6 +1,6 @@
 'use stirct';
 
-const { join } = require('path');
+const { join, isAbsolute } = require('path');
 const { EventEmitter } = require('events');
 const { BrowserWindow, ipcMain } = require('electron');
 const uuidV4 = require('uuid/v4');
@@ -24,6 +24,9 @@ class WindowManager extends EventEmitter {
      * @param {string} path 临时目录，需要外部保证目录存在
      */
     setTmpDir (path) {
+        if (!isAbsolute(path)) {
+            path = join(process.cwd(), path);
+        }
         this._jsonPath = path;
         this.cache = utils.readJson(path);
     }
@@ -38,7 +41,7 @@ class WindowManager extends EventEmitter {
 
         this.cache.windows.forEach((info) => {
             let win = new BrowserWindow(info.options);
-            win.loadURL(`${info.url}#${info.uuid}`);
+            win.loadURL(`file://${info.url}#${info.uuid}`);
             win.setSize(info.bounds.width, info.bounds.height);
             win.setPosition(info.bounds.x, info.bounds.y);
 
@@ -59,13 +62,19 @@ class WindowManager extends EventEmitter {
      * @param {object} userData 窗口携带的自定义数据
      */
     open (url, options, userData) {
+        if (/^file\:\//.test(url)) {
+            url = url.substr(6);
+        }
+        if (!isAbsolute(url)) {
+            url = join(process.cwd(), url);
+        }
         options = options || {};
         userData = userData || {};
         let uuid = uuidV4();
 
         // 打开窗口
         let win = new BrowserWindow(options);
-        win.loadURL(`${url}#${uuid}`);
+        win.loadURL(`file://${url}#${uuid}`);
 
         // 缓存信息
         let info = {

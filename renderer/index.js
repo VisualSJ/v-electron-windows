@@ -5,14 +5,27 @@ const { ipcRenderer } = require('electron');
 
 const ipcFlag = '__v-electron-windows__';
 
-class WindowManager extends EventEmitter {
+class Windows extends EventEmitter {
 
     constructor () {
         super();
         this.uuid = window.location.hash.substr(1);
-        this.userData = ipcRenderer.sendSync(`${ipcFlag}:call`, 'queryUserData', this.uuid);
     }
 
+    /**
+     * 获取当前的 userData
+     */
+    get userData () {
+        if (!this.uuid) {
+            return null;
+        }
+        return ipcRenderer.sendSync(`${ipcFlag}:call`, 'queryUserData', this.uuid);
+    }
+
+    /**
+     * 更新一个窗口的 userData
+     * @param {*} userData 
+     */
     updateUserData (userData) {
         this.userData = userData;
         ipcRenderer.send(`${ipcFlag}:call`, 'updateUserData', this.uuid, this.userData);
@@ -20,4 +33,4 @@ class WindowManager extends EventEmitter {
 
 }
 
-module.exports = new WindowManager();
+module.exports = new Windows();
